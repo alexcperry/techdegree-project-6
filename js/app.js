@@ -98,4 +98,5 @@ addPhraseToDisplay(gamePhrase);
 3. No space between words
 4. If you click on space in between, it highlights the entire row as if you
 clicked a button.
+5. Unsure if the user is meant to be clicking on buttons or typing on keyboard.
 */
