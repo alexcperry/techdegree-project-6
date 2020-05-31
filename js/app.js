@@ -74,17 +74,22 @@ document.getElementsByClassName('btn__reset')[0]
 
 qwerty.addEventListener('click', e => {
   const btn = e.target;
-  btn.className = 'chosen';
-  btn.disabled = 'true';
+  console.log(btn);
 
-  const letterFound = checkLetter(btn);
-  if (!letterFound) {
-    const lostTry = document.querySelector('.tries');
-    tryList.removeChild(lostTry);
-    missed += 1;
+  // Only check if the user clicked a letter button
+  if (btn.tagName === 'BUTTON') {
+    btn.className = 'chosen';
+    btn.disabled = 'true';
+
+    const letterFound = checkLetter(btn);
+    if (!letterFound) {
+      const lostTry = document.querySelector('.tries');
+      tryList.removeChild(lostTry);
+      missed += 1;
+    }
+
+    checkWin();
   }
-
-  checkWin();
 
 })
 
@@ -96,7 +101,5 @@ addPhraseToDisplay(gamePhrase);
 1. No reset
 2. No animations
 3. No space between words
-4. If you click on space in between, it highlights the entire row as if you
-clicked a button.
 5. Unsure if the user is meant to be clicking on buttons or typing on keyboard.
 */
