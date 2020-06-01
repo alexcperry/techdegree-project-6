@@ -3,7 +3,7 @@ const title = document.getElementsByClassName('title')[0];
 const resetBtn = document.getElementsByClassName('btn__reset')[0];
 const qwerty = document.getElementById('qwerty');
 const phrase = document.querySelector('#phrase ul');
-const tryList = document.querySelector('#scoreboard ol');
+const tryImages = document.querySelectorAll('.tries img');
 let missed = 0;
 const numLives = 5;
 
@@ -76,7 +76,6 @@ const reset = () => {
   // Remove previous phrase
   const numChildren = phrase.children.length
   for (let i = 0; i < numChildren; i += 1) {
-    console.log(i)
     const li = phrase.children[0];
     phrase.removeChild(li);
   }
@@ -93,16 +92,8 @@ const reset = () => {
   }
 
   // Reset lives
-  for (let i = 0; i < missed; i += 1) {
-    const newTry = document.createElement('li');
-    newTry.className = 'tries';
-    const tryImage = document.createElement('img');
-    tryImage.src = 'images/liveHeart.png';
-    tryImage.height = "35";
-    tryImage.width = "30";
-    newTry.appendChild(tryImage);
-    tryList.appendChild(newTry);
-
+  for (let i = 0; i < numLives; i += 1) {
+    tryImages[i].src = 'images/liveHeart.png';
   }
 
   missed = 0;
@@ -110,14 +101,10 @@ const reset = () => {
 
 
 // Events
-
 resetBtn.addEventListener('click', () => {
-
   overlay.style.display = 'none';
-  if (overlay.className === 'win') {
+  if (overlay.className === 'win' || overlay.className === 'lose') {
     reset();
-  } else if (overlay.className === 'lose') {
-    reset();;
   }
 })
 
@@ -131,8 +118,8 @@ qwerty.addEventListener('click', e => {
 
     const letterFound = checkLetter(btn);
     if (!letterFound) {
-      const lostTry = document.querySelector('.tries');
-      tryList.removeChild(lostTry);
+      const lostTry = tryImages[numLives - 1 - missed];
+      lostTry.src = 'images/lostHeart.png';
       missed += 1;
     }
 
@@ -146,7 +133,6 @@ const gamePhrase = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(gamePhrase);
 
 /* Known issues
-1. No reset
-2. No animations
-5. Unsure if the user is meant to be clicking on buttons or typing on keyboard.
+1. No animations
+2. Unsure if the user is meant to be clicking on buttons or typing on keyboard.
 */
