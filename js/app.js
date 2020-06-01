@@ -1,16 +1,17 @@
 const overlay = document.getElementById('overlay');
 const title = document.getElementsByClassName('title')[0];
+const resetBtn = document.getElementsByClassName('btn__reset')[0];
 const qwerty = document.getElementById('qwerty');
-const phrase = document.getElementById('phrase');
+const phrase = document.querySelector('#phrase ul');
 const tryList = document.querySelector('#scoreboard ol');
 let missed = 0;
 const numLives = 5;
 
-const phrases = ['For Once in My Life',
-  'Bad Romance',
-  'I Say A Little Prayer for You',
-  'Thriller',
-  'Its Not Unusual'];
+const phrases = ['FOR ONCE IN MY LIFE',
+  'BAD ROMANCE',
+  'I SAY A LITTLE PRAYER FOR YOU',
+  'THRILLER',
+  'ITS NOT UNUSUAL'];
 
 
 // Functions
@@ -25,6 +26,8 @@ const addPhraseToDisplay = arr => {
     li.textContent = arr[i];
     if (arr[i] !== ' ') {
       li.className = 'letter';
+    } else {
+      li.className = 'space';
     }
     phrase.append(li);
   }
@@ -57,24 +60,69 @@ const checkWin = () => {
     overlay.style.display = '';
     overlay.className = 'win';
     title.textContent = 'Congratulations you win!';
+    resetBtn.textContent = 'New game?'
+
   } else if (didLose) {
     overlay.style.display = '';
     overlay.className = 'lose';
     title.textContent = 'Ran out of lives'
+    resetBtn.textContent = 'New game?'
   }
 
 }
 
+const reset = () => {
+
+  // Remove previous phrase
+  const numChildren = phrase.children.length
+  for (let i = 0; i < numChildren; i += 1) {
+    console.log(i)
+    const li = phrase.children[0];
+    phrase.removeChild(li);
+  }
+
+  // Add new phrase
+  const newPhrase = getRandomPhraseAsArray(phrases);
+  addPhraseToDisplay(newPhrase);
+
+  // Reset keyboard
+  const btnsToReset = document.querySelectorAll('.chosen');
+  for (let i = 0; i < btnsToReset.length; i += 1) {
+    btnsToReset[i].className = '';
+    btnsToReset[i].disabled = false;
+  }
+
+  // Reset lives
+  for (let i = 0; i < missed; i += 1) {
+    const newTry = document.createElement('li');
+    newTry.className = 'tries';
+    const tryImage = document.createElement('img');
+    tryImage.src = 'images/liveHeart.png';
+    tryImage.height = "35";
+    tryImage.width = "30";
+    newTry.appendChild(tryImage);
+    tryList.appendChild(newTry);
+
+  }
+
+  missed = 0;
+}
+
 
 // Events
-document.getElementsByClassName('btn__reset')[0]
-  .addEventListener('click', () => {
-    overlay.style.display = 'none';
-  })
+
+resetBtn.addEventListener('click', () => {
+
+  overlay.style.display = 'none';
+  if (overlay.className === 'win') {
+    reset();
+  } else if (overlay.className === 'lose') {
+    reset();;
+  }
+})
 
 qwerty.addEventListener('click', e => {
   const btn = e.target;
-  console.log(btn);
 
   // Only check if the user clicked a letter button
   if (btn.tagName === 'BUTTON') {
@@ -100,6 +148,5 @@ addPhraseToDisplay(gamePhrase);
 /* Known issues
 1. No reset
 2. No animations
-3. No space between words
 5. Unsure if the user is meant to be clicking on buttons or typing on keyboard.
 */
