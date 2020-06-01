@@ -10,7 +10,12 @@ const phrases = ['FOR ONCE IN MY LIFE',
   'BAD ROMANCE',
   'I SAY A LITTLE PRAYER FOR YOU',
   'THRILLER',
-  'ITS NOT UNUSUAL'];
+  'ITS NOT UNUSUAL',
+  'ICE ICE BABY',
+  'YOURE THE ONE THAT I WANT',
+  'SOMEBODY LOVES YOU',
+  'I WILL SURVIVE',
+  'YOURE MY BEST FRIEND'];
 
 
 // Functions
@@ -138,7 +143,3 @@ qwerty.addEventListener('click', e => {
 // Get phrase, add to display
 const gamePhrase = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(gamePhrase);
-
-/* Known issues
-1. No animations
-*/
