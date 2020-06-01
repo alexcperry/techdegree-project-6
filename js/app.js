@@ -6,7 +6,6 @@ const phrase = document.querySelector('#phrase ul');
 const tryImages = document.querySelectorAll('.tries img');
 let missed = 0;
 const numLives = 5;
-
 const phrases = ['FOR ONCE IN MY LIFE',
   'BAD ROMANCE',
   'I SAY A LITTLE PRAYER FOR YOU',
@@ -49,6 +48,20 @@ const checkLetter = btn => {
   return foundMatch ? btn.textContent : null;
 }
 
+const winScreen = () => {
+  overlay.style.display = '';
+  overlay.className = 'win';
+  title.textContent = 'Congratulations you win!';
+  resetBtn.textContent = 'New game?'
+}
+
+const loseScreen = () => {
+  overlay.style.display = '';
+  overlay.className = 'lose';
+  title.textContent = 'Ran out of lives'
+  resetBtn.textContent = 'New game?'
+}
+
 const checkWin = () => {
 
   const didWin =
@@ -57,16 +70,9 @@ const checkWin = () => {
   const didLose = missed === numLives;
 
   if (didWin) {
-    overlay.style.display = '';
-    overlay.className = 'win';
-    title.textContent = 'Congratulations you win!';
-    resetBtn.textContent = 'New game?'
-
+    setTimeout(winScreen, 1300);
   } else if (didLose) {
-    overlay.style.display = '';
-    overlay.className = 'lose';
-    title.textContent = 'Ran out of lives'
-    resetBtn.textContent = 'New game?'
+    setTimeout(loseScreen, 1300);
   }
 
 }
@@ -128,11 +134,11 @@ qwerty.addEventListener('click', e => {
 
 })
 
+
 // Get phrase, add to display
 const gamePhrase = getRandomPhraseAsArray(phrases);
 addPhraseToDisplay(gamePhrase);
 
 /* Known issues
 1. No animations
-2. Unsure if the user is meant to be clicking on buttons or typing on keyboard.
 */
